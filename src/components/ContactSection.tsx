@@ -1,9 +1,87 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 const ContactSection = () => {
+  const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    practice: "",
+    message: ""
+  });
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { id, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [id]: value
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    // Basic validation
+    if (!formData.firstName || !formData.lastName || !formData.email || !formData.message) {
+      toast({
+        title: "Missing Required Fields",
+        description: "Please fill in all required fields marked with *",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const { error } = await supabase
+        .from('contact_submissions')
+        .insert({
+          first_name: formData.firstName,
+          last_name: formData.lastName,
+          email: formData.email,
+          practice_name: formData.practice || null,
+          project_description: formData.message
+        });
+
+      if (error) {
+        throw error;
+      }
+
+      // Success
+      toast({
+        title: "Thank You!",
+        description: "Your consultation request has been submitted. We'll get back to you within 2 hours during business hours.",
+      });
+
+      // Reset form
+      setFormData({
+        firstName: "",
+        lastName: "",
+        email: "",
+        practice: "",
+        message: ""
+      });
+
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      toast({
+        title: "Submission Failed",
+        description: "There was an error submitting your request. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <section className="py-20 bg-gradient-to-br from-professional-blue to-trust-teal">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -26,7 +104,7 @@ const ContactSection = () => {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <form className="space-y-6">
+              <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div>
                     <label htmlFor="firstName" className="block text-sm font-medium text-neutral-gray mb-2">
@@ -34,7 +112,10 @@ const ContactSection = () => {
                     </label>
                     <Input 
                       id="firstName" 
+                      value={formData.firstName}
+                      onChange={handleInputChange}
                       placeholder="John"
+                      required
                       className="border-border focus:border-professional-blue focus:ring-professional-blue"
                     />
                   </div>
@@ -44,7 +125,10 @@ const ContactSection = () => {
                     </label>
                     <Input 
                       id="lastName" 
+                      value={formData.lastName}
+                      onChange={handleInputChange}
                       placeholder="Smith"
+                      required
                       className="border-border focus:border-professional-blue focus:ring-professional-blue"
                     />
                   </div>
@@ -57,7 +141,10 @@ const ContactSection = () => {
                   <Input 
                     id="email" 
                     type="email" 
+                    value={formData.email}
+                    onChange={handleInputChange}
                     placeholder="john@dentalclinic.com"
+                    required
                     className="border-border focus:border-professional-blue focus:ring-professional-blue"
                   />
                 </div>
@@ -68,6 +155,8 @@ const ContactSection = () => {
                   </label>
                   <Input 
                     id="practice" 
+                    value={formData.practice}
+                    onChange={handleInputChange}
                     placeholder="Smith Family Dental"
                     className="border-border focus:border-professional-blue focus:ring-professional-blue"
                   />
@@ -79,14 +168,23 @@ const ContactSection = () => {
                   </label>
                   <Textarea 
                     id="message" 
+                    value={formData.message}
+                    onChange={handleInputChange}
                     placeholder="I'm interested in improving my practice's online presence and need help with..."
                     rows={4}
+                    required
                     className="border-border focus:border-professional-blue focus:ring-professional-blue"
                   />
                 </div>
                 
-                <Button variant="professional" size="lg" className="w-full">
-                  Schedule Free Consultation
+                <Button 
+                  type="submit" 
+                  variant="professional" 
+                  size="lg" 
+                  disabled={isSubmitting}
+                  className="w-full"
+                >
+                  {isSubmitting ? "Submitting..." : "Schedule Free Consultation"}
                 </Button>
               </form>
             </CardContent>
