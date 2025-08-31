@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -20,8 +20,30 @@ const ContactSection = () => {
     email: "",
     practice: "",
     message: "",
-    preferredMeetingDate: null as Date | null
+    preferredMeetingDate: null as Date | null,
+    captchaAnswer: ""
   });
+  
+  const [captcha, setCaptcha] = useState({ num1: 0, num2: 0, answer: 0 });
+  const [emailError, setEmailError] = useState("");
+
+  // Generate new captcha
+  const generateCaptcha = () => {
+    const num1 = Math.floor(Math.random() * 10) + 1;
+    const num2 = Math.floor(Math.random() * 10) + 1;
+    setCaptcha({ num1, num2, answer: num1 + num2 });
+  };
+
+  // Initialize captcha on component mount
+  useEffect(() => {
+    generateCaptcha();
+  }, []);
+
+  // Email validation function
+  const validateEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { id, value } = e.target;
@@ -29,6 +51,15 @@ const ContactSection = () => {
       ...prev,
       [id]: value
     }));
+
+    // Email validation on change
+    if (id === "email") {
+      if (value && !validateEmail(value)) {
+        setEmailError("Please enter a valid email address");
+      } else {
+        setEmailError("");
+      }
+    }
   };
 
   const handleDateSelect = (date: Date | undefined) => {
@@ -48,6 +79,29 @@ const ContactSection = () => {
         description: "Please fill in all required fields marked with *",
         variant: "destructive"
       });
+      return;
+    }
+
+    // Email validation
+    if (!validateEmail(formData.email)) {
+      toast({
+        title: "Invalid Email",
+        description: "Please enter a valid email address",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    // Captcha validation
+    const userAnswer = parseInt(formData.captchaAnswer);
+    if (isNaN(userAnswer) || userAnswer !== captcha.answer) {
+      toast({
+        title: "Captcha Error",
+        description: "Please solve the math problem correctly",
+        variant: "destructive"
+      });
+      generateCaptcha(); // Generate new captcha
+      setFormData(prev => ({ ...prev, captchaAnswer: "" }));
       return;
     }
 
@@ -75,15 +129,18 @@ const ContactSection = () => {
         description: "Your consultation request has been submitted. We'll get back to you within 2 hours during business hours.",
       });
 
-      // Reset form
+      // Reset form and generate new captcha
       setFormData({
         firstName: "",
         lastName: "",
         email: "",
         practice: "",
         message: "",
-        preferredMeetingDate: null
+        preferredMeetingDate: null,
+        captchaAnswer: ""
       });
+      setEmailError("");
+      generateCaptcha();
 
     } catch (error) {
       console.error('Error submitting form:', error);
@@ -160,8 +217,14 @@ const ContactSection = () => {
                     onChange={handleInputChange}
                     placeholder="john@dentalclinic.com"
                     required
-                    className="border-border focus:border-professional-blue focus:ring-professional-blue"
+                    className={cn(
+                      "border-border focus:border-professional-blue focus:ring-professional-blue",
+                      emailError && "border-red-500 focus:border-red-500"
+                    )}
                   />
+                  {emailError && (
+                    <p className="text-red-500 text-sm mt-1">{emailError}</p>
+                  )}
                 </div>
                 
                 <div>
@@ -229,7 +292,41 @@ const ContactSection = () => {
                   />
                 </div>
                 
-                <Button 
+                <div>
+                  <label htmlFor="captchaAnswer" className="block text-sm font-medium text-neutral-gray mb-2">
+                    Security Check *
+                  </label>
+                  <div className="flex items-center gap-4">
+                    <div className="bg-gray-100 p-3 rounded-md border">
+                      <span className="text-lg font-semibold text-professional-blue">
+                        {captcha.num1} + {captcha.num2} = ?
+                      </span>
+                    </div>
+                    <Input
+                      id="captchaAnswer"
+                      type="number"
+                      value={formData.captchaAnswer}
+                      onChange={handleInputChange}
+                      placeholder="Answer"
+                      required
+                      className="w-24 border-border focus:border-professional-blue focus:ring-professional-blue"
+                    />
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={generateCaptcha}
+                      className="text-xs"
+                    >
+                      New
+                    </Button>
+                  </div>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Please solve this simple math problem to verify you're human
+                  </p>
+                </div>
+                
+                <Button
                   type="submit" 
                   variant="professional" 
                   size="lg" 
