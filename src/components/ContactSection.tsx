@@ -19,7 +19,8 @@ const ContactSection = () => {
     lastName: "",
     email: "",
     practice: "",
-    message: ""
+    message: "",
+    preferredMeetingDate: null as Date | null
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -27,6 +28,13 @@ const ContactSection = () => {
     setFormData(prev => ({
       ...prev,
       [id]: value
+    }));
+  };
+
+  const handleDateSelect = (date: Date | undefined) => {
+    setFormData(prev => ({
+      ...prev,
+      preferredMeetingDate: date || null
     }));
   };
 
@@ -53,7 +61,8 @@ const ContactSection = () => {
           last_name: formData.lastName,
           email: formData.email,
           practice_name: formData.practice || null,
-          project_description: formData.message
+          project_description: formData.message,
+          preferred_meeting_date: formData.preferredMeetingDate?.toISOString().split('T')[0] || null
         });
 
       if (error) {
@@ -72,7 +81,8 @@ const ContactSection = () => {
         lastName: "",
         email: "",
         practice: "",
-        message: ""
+        message: "",
+        preferredMeetingDate: null
       });
 
     } catch (error) {
@@ -88,7 +98,7 @@ const ContactSection = () => {
   };
 
   return (
-    <section className="py-20 bg-gradient-to-br from-professional-blue to-trust-teal">
+    <section id="contact-section" className="py-20 bg-gradient-to-br from-professional-blue to-trust-teal">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
@@ -165,6 +175,39 @@ const ContactSection = () => {
                     placeholder="Smith Family Dental"
                     className="border-border focus:border-professional-blue focus:ring-professional-blue"
                   />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-neutral-gray mb-2">
+                    Preferred Meeting Date
+                  </label>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="outline"
+                        className={cn(
+                          "w-full justify-start text-left font-normal border-border focus:border-professional-blue",
+                          !formData.preferredMeetingDate && "text-muted-foreground"
+                        )}
+                      >
+                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        {formData.preferredMeetingDate ? (
+                          format(formData.preferredMeetingDate, "PPP")
+                        ) : (
+                          <span>Pick a date for your consultation</span>
+                        )}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <Calendar
+                        mode="single"
+                        selected={formData.preferredMeetingDate || undefined}
+                        onSelect={handleDateSelect}
+                        disabled={(date) => date < new Date()}
+                        initialFocus
+                      />
+                    </PopoverContent>
+                  </Popover>
                 </div>
                 
                 <div>

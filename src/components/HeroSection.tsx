@@ -2,6 +2,13 @@ import { Button } from "@/components/ui/button";
 import heroImage from "@/assets/hero-bg.jpg";
 
 const HeroSection = () => {
+  const scrollToContact = () => {
+    const contactSection = document.querySelector('#contact-section');
+    if (contactSection) {
+      contactSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background Image with Overlay */}
@@ -25,11 +32,11 @@ const HeroSection = () => {
         </p>
         
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-          <Button variant="hero" size="lg" className="min-w-[200px]">
+          <Button onClick={scrollToContact} variant="hero" size="lg" className="min-w-[200px]">
             Get Started Today
           </Button>
-          <Button variant="outline-professional" size="lg" className="min-w-[200px] bg-white/10 backdrop-blur-sm border-white/30 text-white hover:bg-white hover:text-professional-blue">
-            View Our Work
+          <Button onClick={scrollToContact} variant="outline-professional" size="lg" className="min-w-[200px] bg-white/10 backdrop-blur-sm border-white/30 text-white hover:bg-white hover:text-professional-blue">
+            Schedule App Demo
           </Button>
         </div>
         

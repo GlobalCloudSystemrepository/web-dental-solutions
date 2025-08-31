@@ -1,6 +1,13 @@
 import { Button } from "@/components/ui/button";
 
 const AboutSection = () => {
+  const scrollToContact = () => {
+    const contactSection = document.querySelector('#contact-section');
+    if (contactSection) {
+      contactSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <section className="py-20 bg-background">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -40,7 +47,7 @@ const AboutSection = () => {
               </div>
             </div>
             
-            <Button variant="professional" size="lg">
+            <Button onClick={scrollToContact} variant="professional" size="lg">
               Schedule a Consultation
             </Button>
           </div>
