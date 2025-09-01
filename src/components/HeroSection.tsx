@@ -35,8 +35,8 @@ const HeroSection = () => {
           <Button onClick={scrollToContact} variant="hero" size="lg" className="min-w-[200px]">
             Get Started Today
           </Button>
-          <Button onClick={scrollToContact} variant="outline-professional" size="lg" className="min-w-[200px] bg-white/10 backdrop-blur-sm border-white/30 text-white hover:bg-white hover:text-professional-blue">
-            Schedule App Demo
+          <Button onClick={() => window.open('https://www.youtube.com/channel/UC24bzGZ6SuBHqM2MJYKsHqg', '_blank')} variant="outline-professional" size="lg" className="min-w-[200px] bg-white/10 backdrop-blur-sm border-white/30 text-white hover:bg-white hover:text-professional-blue">
+            See Our Work in Action
           </Button>
         </div>
         
