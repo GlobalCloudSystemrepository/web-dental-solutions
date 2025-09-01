@@ -68,7 +68,7 @@ const AboutSection = () => {
                   <div className="w-2 h-2 bg-white rounded-full"></div>
                 </div>
                 <div>
-                  <strong>Compliance First:</strong> Every solution is built with HIPAA, PCI, and SOC 2 compliance as a foundation.
+                  <strong>Compliance First:</strong> Every solution is built with HIPAA, PCI, PHIPA, PIPEDA, and SOC 2 compliance as a foundation.
                 </div>
               </li>
               <li className="flex items-start gap-3">

@@ -41,7 +41,7 @@ const HeroSection = () => {
         </div>
         
         {/* Trust Indicators */}
-        <div className="mt-12 flex flex-wrap justify-center items-center gap-8 text-white/80">
+        <div className="mt-12 flex flex-wrap justify-center items-center gap-6 text-white/80">
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 bg-green-400 rounded-full"></div>
             <span className="font-semibold">HIPAA Compliant</span>
@@ -49,6 +49,14 @@ const HeroSection = () => {
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 bg-green-400 rounded-full"></div>
             <span className="font-semibold">PCI Certified</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-3 h-3 bg-green-400 rounded-full"></div>
+            <span className="font-semibold">PHIPA Compliant</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-3 h-3 bg-green-400 rounded-full"></div>
+            <span className="font-semibold">PIPEDA Compliant</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 bg-green-400 rounded-full"></div>
