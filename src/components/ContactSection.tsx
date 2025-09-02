@@ -350,7 +350,7 @@ const ContactSection = () => {
                 <ul className="space-y-2">
                   <li className="flex items-center gap-3">
                     <div className="w-2 h-2 bg-trust-teal rounded-full"></div>
-                    <span className="text-neutral-gray">Response within 2 hours during business hours</span>
+                    <span className="text-neutral-gray">Response within 24 hours</span>
                   </li>
                   <li className="flex items-center gap-3">
                     <div className="w-2 h-2 bg-trust-teal rounded-full"></div>
