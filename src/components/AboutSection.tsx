@@ -38,7 +38,7 @@ const AboutSection = () => {
                 <div className="text-neutral-gray">Compliance Rate</div>
               </div>
               <div className="bg-neutral-light p-6 rounded-lg">
-                <div className="text-3xl font-bold text-professional-blue mb-2">15+</div>
+                <div className="text-3xl font-bold text-professional-blue mb-2">10+</div>
                 <div className="text-neutral-gray">Years Experience</div>
               </div>
               <div className="bg-neutral-light p-6 rounded-lg">
