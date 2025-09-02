@@ -30,7 +30,7 @@ const AboutSection = () => {
             
             <div className="grid sm:grid-cols-2 gap-6 mb-8">
               <div className="bg-neutral-light p-6 rounded-lg">
-                <div className="text-3xl font-bold text-professional-blue mb-2">500+</div>
+                <div className="text-3xl font-bold text-professional-blue mb-2">100+</div>
                 <div className="text-neutral-gray">Projects Completed</div>
               </div>
               <div className="bg-neutral-light p-6 rounded-lg">
