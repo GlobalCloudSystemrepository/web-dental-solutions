@@ -14,7 +14,7 @@ const AboutSection = () => {
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div>
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
-              15+ Years of Healthcare Technology Expertise
+              10+ Years of Healthcare Technology Expertise
             </h2>
             <p className="text-lg text-neutral-gray mb-6 leading-relaxed">
               As a seasoned web developer with over 15 years of experience, I specialize in creating 
