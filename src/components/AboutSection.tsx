@@ -17,7 +17,7 @@ const AboutSection = () => {
               10+ Years of Healthcare Technology Expertise
             </h2>
             <p className="text-lg text-neutral-gray mb-6 leading-relaxed">
-              As a seasoned web developer with over 15 years of experience, I specialize in creating 
+              As a seasoned developer/architect with over 10 years in tech services, I specialize in creating 
               technology solutions specifically for healthcare practices. My deep understanding of 
               compliance requirements and industry challenges ensures your practice gets solutions 
               that work seamlessly and securely.
