@@ -36,7 +36,7 @@ const HeroSection = () => {
             Get Started Today
           </Button>
           <Button onClick={() => window.open('https://www.youtube.com/channel/UC24bzGZ6SuBHqM2MJYKsHqg', '_blank')} variant="outline-professional" size="lg" className="min-w-[200px] bg-white/10 backdrop-blur-sm border-white/30 text-white hover:bg-white hover:text-professional-blue">
-            See Our Work in Action
+            Check Out Our Projects
           </Button>
         </div>
         
